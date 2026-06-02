@@ -9,7 +9,7 @@ import AuthProvider from "./providers/AuthProvider.tsx";
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISHABLE_KEY) {
-	throw new Error("Missing Publishable Key");
+	throw new Error("missing publishable key");
 }
 
 createRoot(document.getElementById("root")!).render(
