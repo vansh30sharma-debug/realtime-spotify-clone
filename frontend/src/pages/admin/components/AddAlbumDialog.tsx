@@ -63,7 +63,7 @@ const AddAlbumDialog = () => {
 			setAlbumDialogOpen(false);
 			toast.success("Album created successfully");
 		} catch (error: any) {
-			toast.error("Failed to create album: " + error.message);
+			toast.error("Failed to create album: " + (error.response?.data?.message || error.message));
 		} finally {
 			setIsLoading(false);
 		}

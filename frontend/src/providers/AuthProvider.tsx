@@ -36,8 +36,29 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 		initAuth();
 
+		// Set up interceptor to dynamically inject fresh token on every request
+		const requestInterceptor = axiosInstance.interceptors.request.use(
+			async (config: any) => {
+				try {
+					const token = await getToken();
+					if (token && config.headers) {
+						config.headers.Authorization = `Bearer ${token}`;
+					}
+				} catch (error) {
+					console.error("Error fetching token in Axios request interceptor", error);
+				}
+				return config;
+			},
+			(error: any) => {
+				return Promise.reject(error);
+			}
+		);
+
 		// clean up
-		return () => disconnectSocket();
+		return () => {
+			disconnectSocket();
+			axiosInstance.interceptors.request.eject(requestInterceptor);
+		};
 	}, [getToken, userId, checkAdminStatus, initSocket, disconnectSocket]);
 
 	if (loading)

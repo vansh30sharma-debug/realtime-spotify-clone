@@ -82,7 +82,7 @@ const AddSongDialog = () => {
 			});
 			toast.success("Song added successfully");
 		} catch (error: any) {
-			toast.error("Failed to add song: " + error.message);
+			toast.error("Failed to add song: " + (error.response?.data?.message || error.message));
 		} finally {
 			setIsLoading(false);
 		}
